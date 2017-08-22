@@ -1,0 +1,13 @@
+{
+    "standard.enable": false,
+    "prettier.printWidth": 120,
+    "prettier.tabWidth": 2,
+    "prettier.useTabs": false,
+    "prettier.arrowParens": false,
+    "prettier.spaceBeforeFunctionParen": true,
+    "prettier.semi": false,
+    "editor.tabSize": 2,
+    "vetur.format.styleInitialIndent": false,
+    "vetur.format.scriptInitialIndent": false,
+    "vetur.format.js.InsertSpaceBeforeFunctionParenthesis": true
+}
