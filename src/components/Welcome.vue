@@ -1,19 +1,19 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
+  <div class="welcome">
+    <h3>{{ msg }}</h3>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'hello',
+  name: 'welcome',
   data () {
     return {
-      msg: 'Welcome to Messenger Client'
+      msg: 'Welcome to Messenger'
     }
   },
   beforeRouteEnter: (to, from, next) => {
-    const accessToken = window.localStorage.getItem('accessToken')
+    const accessToken = window.localStorage.getItem('token')
 
     if (!accessToken) {
       return next('/login')

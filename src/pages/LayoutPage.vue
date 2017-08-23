@@ -10,10 +10,10 @@
         </v-list-tile>
         <v-list-tile avatar tag="div">
           <v-list-tile-avatar>
-            <img src="https://randomuser.me/api/portraits/men/85.jpg" />
+            <img :src="profile.imageUrl" />
           </v-list-tile-avatar>
           <v-list-tile-content>
-            <v-list-tile-title>John Leider</v-list-tile-title>
+            <v-list-tile-title>{{ profile.firstName +' '+ profile.lastName}}</v-list-tile-title>
           </v-list-tile-content>
           <v-list-tile-action>
             <v-btn icon @click.native.stop="mini = !mini">
@@ -38,7 +38,7 @@
     <!-- Toolbar -->
     <v-toolbar fixed dark>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title>Messenger Client</v-toolbar-title>
+      <v-toolbar-title>Messenger</v-toolbar-title>
     </v-toolbar>
 
     <main>
@@ -51,12 +51,16 @@
 <script>
 export default {
   name: 'layout',
+  created () {
+    this.profile = JSON.parse(window.localStorage.getItem('profile'))
+  },
   data () {
     return {
+      profile: null,
       drawer: null,
       items: [
-        { title: 'Home', icon: 'dashboard', path: '/' },
-        { title: 'Messages', icon: 'message', path: '/chat' },
+        // { title: 'Messages', icon: 'message', path: '/' },
+        // { title: 'Messages', icon: 'message', path: '/chat' },
         { title: 'Logout', icon: 'fa-sign-out', path: '/login' }
       ],
       mini: false,

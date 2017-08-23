@@ -11,7 +11,7 @@ export default {
     Login
   },
   beforeRouteEnter: (to, from, next) => {
-    const accessToken = window.localStorage.getItem('accessToken')
+    const accessToken = window.localStorage.getItem('token')
     if (accessToken) {
       return next('/')
     }

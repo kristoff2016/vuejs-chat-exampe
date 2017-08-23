@@ -15,6 +15,16 @@ export async function getLoginCode (email) {
   return axios.post(`${API_URL}/login/code`, { email })
 }
 
-export async function setProfile (firstName, lastName, imageUrl) {
-  return axios.put(`${API_URL}/profiles`, { firstName, lastName, imageUrl })
+export async function setProfile (firstName, lastName, imageUrl, token) {
+  return axios.put(`${API_URL}/profiles`, { firstName, lastName, imageUrl }, { headers: { Authorization: token } }).then(({ data }) => data)
+}
+
+export async function uploadImg (formData) {
+  const url = `${API_URL}/upload/images`
+  return axios.post(url, formData)
+    .then(x => x.data)
+}
+
+export async function getContacts (token) {
+  return axios.get(`${API_URL}/chats`, { headers: { Authorization: token } }).then(({ data }) => data)
 }

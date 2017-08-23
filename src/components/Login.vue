@@ -22,9 +22,10 @@
             </div>
             <div v-if="logged">
               <div class="avatar">
-                <img v-bind:src="imageUrl" alt="avatar" @click="onUpload" />
+                <img :src="imageUrl" alt="avatar" @click="onUpload" />
+                <v-progress-circular indeterminate v-if="loadingImg" class="purple--text image-loading"></v-progress-circular>
                 <form id="form-private-chat">
-                  <input id="upload-image" name="files" type="file" @change="uploadImage" accept="image/*">
+                  <input id="upload-image" ref="upload-image" name="files" type="file" @change="uploadImage($event.target.name, $event.target.files)" accept="image/*">
                 </form>
               </div>
               <v-text-field label="FirstName" name="firstName" v-model="firstName" required></v-text-field>
@@ -47,12 +48,14 @@ export default {
   name: 'login',
   data () {
     return {
+      token: '',
       email: '',
       code: '',
       firstName: '',
       lastName: '',
       imageUrl: 'static/image/img_avatar.png',
       loading: false,
+      loadingImg: false,
       getCodeSuccess: false,
       logged: false,
       errors: {
@@ -68,9 +71,10 @@ export default {
       }
       try {
         this.loading = true
-        await API.login(this.email, this.code)
+        const response = await API.login(this.email, this.code)
         this.loading = false
         this.logged = true
+        this.token = response.data.token
       } catch (e) {
         console.error(e)
         if (e.response) {
@@ -105,20 +109,46 @@ export default {
       }
       try {
         this.loading = true
-        const response = await API.setProfile(this.firstName, this.lastName, this.imageUrl)
+        const response = await API.setProfile(this.firstName, this.lastName, this.imageUrl, this.token)
         this.getCodeSuccess = true
         this.loading = false
-        console.log(response.data)
+
+        const userData = {
+          firstName: response.firstName,
+          lastName: response.lastName,
+          imageUrl: response.imageUrl,
+          sid: response.sid,
+          email: response.email,
+          token: this.token
+        }
+
+        window.localStorage.setItem('profile', JSON.stringify(userData))
+        window.localStorage.setItem('token', JSON.stringify(this.token))
+
+        this.$router.push({ name: 'Welcome' })
       } catch (error) {
         this.loading = false
       }
     },
     async onUpload () {
-      this.uploadImage()
+      this.$refs['upload-image'].click()
     },
-    async uploadImage () {
-      var file = document.getElementById('upload-image').files[0]
-      console.log('upload....', file)
+    async uploadImage (name, files) {
+      this.loadingImg = true
+      const form = new FormData()
+      Array
+        .from(Array(files.length).keys())
+        .map(x => {
+          form.append('file', files[x], files[x].name)
+        })
+      try {
+        this.loadingImg = false
+        const response = await API.uploadImg(form)
+        this.imageUrl = response.url
+      } catch (e) {
+        this.loadingImg = false
+        console.log(e.response)
+      }
     }
   }
 }
@@ -143,9 +173,17 @@ export default {
   text-transform: none;
 }
 
+.avatar {
+  position: relative;
+  width: 90px;
+  height: 90px;
+  margin: 0 auto;
+}
+
 .avatar img {
   width: 90px;
   height: 90px;
+  cursor: pointer;
 }
 
 .progress-circular {
@@ -162,6 +200,12 @@ export default {
 .alert {
   margin-bottom: 15px;
   padding: 10px;
+}
+
+.image-loading {
+  right: 0;
+  left: 0;
+  margin: 0 auto;
 }
 
 #upload-image {

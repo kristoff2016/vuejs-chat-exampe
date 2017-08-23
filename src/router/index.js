@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import Welcome from '@/components/Welcome'
 import LoginPage from '@/pages/LoginPage'
 import ChatPage from '@/pages/ChatPage'
 import LayoutPage from '@/pages/LayoutPage'
@@ -15,13 +14,9 @@ const router = new Router({
       name: 'Layout',
       component: LayoutPage,
       children: [{
-        path: 'chat',
+        path: '',
         name: 'Chat',
         component: ChatPage
-      }, {
-        path: '',
-        name: 'Welcome',
-        component: Welcome
       }]
     },
     {
