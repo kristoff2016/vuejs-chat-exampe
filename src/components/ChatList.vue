@@ -7,6 +7,9 @@
         <v-btn icon>
           <v-icon>search</v-icon>
         </v-btn>
+        <v-btn icon>
+            <v-icon>check_circle</v-icon>
+          </v-btn>
       </v-toolbar>
       <v-list two-line>
         <li>
@@ -18,7 +21,7 @@
               <img v-bind:src="contact.imageUrl"></v-list-tile-avatar>
             </v-list-tile-avatar>
             <v-list-tile-content>
-              <v-list-tile-title>{{ contact.firstName + contact.lastName }}</v-list-tile-title>
+              <v-list-tile-title>{{ contact.firstName + ' ' + contact.lastName }}</v-list-tile-title>
               <v-list-tile-sub-title> <span class='grey--text text--darken-2'> {{ contact.content }} </span> </v-list-tile-sub-title>
             </v-list-tile-content>
           </v-list-tile>
