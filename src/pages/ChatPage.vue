@@ -2,7 +2,7 @@
   <div>
     <v-layout row wrap>
       <v-flex xs4>
-        <v-card dark xs4 class="primary">
+        <v-card dark class="primary">
           <chat-list></chat-list>
         </v-card>
       </v-flex>
