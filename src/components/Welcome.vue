@@ -11,13 +11,23 @@ export default {
     return {
       msg: 'Welcome to Messenger Client'
     }
+  },
+  beforeRouteEnter: (to, from, next) => {
+    const accessToken = window.localStorage.getItem('accessToken')
+
+    if (!accessToken) {
+      return next('/login')
+    }
+
+    next()
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1, h2 {
+h1,
+h2 {
   font-weight: normal;
 }
 

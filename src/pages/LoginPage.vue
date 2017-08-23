@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <login email="email" password="password"></login>
-  </div>
+  <login />
 </template>
 
 <script>
@@ -14,11 +12,9 @@ export default {
   },
   beforeRouteEnter: (to, from, next) => {
     const accessToken = window.localStorage.getItem('accessToken')
-
     if (accessToken) {
       return next('/')
     }
-
     next()
   }
 }
