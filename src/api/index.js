@@ -28,3 +28,11 @@ export async function uploadImg (formData) {
 export async function getContacts (token) {
   return axios.get(`${API_URL}/chats`, { headers: { Authorization: token } }).then(({ data }) => data)
 }
+
+export async function getSearch (token, q) {
+  return axios.get(`${API_URL}/chats/search?q=` + q, { headers: { Authorization: token } }).then(({ data }) => data)
+}
+
+export async function createChat (token, title, imageUrl, userIds) {
+  return axios.post(`${API_URL}/chats`, { title, imageUrl, userIds }, { headers: { Authorization: token } }).then(({ data }) => data)
+}

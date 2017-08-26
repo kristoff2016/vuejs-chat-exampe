@@ -142,9 +142,9 @@ export default {
           form.append('file', files[x], files[x].name)
         })
       try {
-        this.loadingImg = false
         const response = await API.uploadImg(form)
         this.imageUrl = response.url
+        this.loadingImg = false
       } catch (e) {
         this.loadingImg = false
         console.log(e.response)

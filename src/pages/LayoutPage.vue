@@ -49,18 +49,42 @@
   </v-app>
 </template>
 <script>
+import io from '../../node_modules/socket.io-client/dist/socket.io.js'
 export default {
   name: 'layout',
+  beforeRouteEnter: (to, from, next) => {
+    const accessToken = window.localStorage.getItem('token')
+    if (!accessToken) {
+      return next('/login')
+    }
+    next()
+  },
   created () {
     this.profile = JSON.parse(window.localStorage.getItem('profile'))
+    this.token = JSON.parse(window.localStorage.getItem('token'))
+    // var socket = io('http://localhost:5000', {
+    //   query: { auth: this.token },
+    //   transports: ['websocket']
+    // })
+    // socket.on('connect', function () {
+    //   console.log('connected')
+    // })
+    // socket.on('disconnect', function () {
+    //   console.log('disconnected')
+    // })
+    // socket.on('error', function (data) {
+    //   console.log(data || 'error')
+    // })
+    // socket.on('connect_failed', function (data) {
+    //   console.log(data || 'connect_failed')
+    // })
   },
   data () {
     return {
+      token: null,
       profile: null,
       drawer: null,
       items: [
-        // { title: 'Messages', icon: 'message', path: '/' },
-        // { title: 'Messages', icon: 'message', path: '/chat' },
         { title: 'Logout', icon: 'fa-sign-out', path: '/login' }
       ],
       mini: false,
@@ -68,6 +92,7 @@ export default {
     }
   }
 }
+
 </script>
 
 <style>
